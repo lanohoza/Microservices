@@ -31,7 +31,7 @@ public class OrderController {
     List<Ordre> ordres=new ArrayList<>();
 
     @GetMapping("/add-product-to-order/{id}/{productId}")
-    public List<Product> addProductOrder(@PathVariable("productId")int productId,@PathVariable("id")int id){
+    public Ordre addProductOrder(@PathVariable("productId")int productId,@PathVariable("id")int id){
         Ordre ord=getOrdreById(id);
 
         String uri=BASE_URI+"/product-by-id/"+productId;
@@ -39,11 +39,11 @@ public class OrderController {
         ord.getListproduit().add(product);
         total_price =total(ord.getListproduit());
         ord.setTotal_price(total_price);
-        return ord.getListproduit();
+        return ord;
     }
 
     @GetMapping("/remove-product-from-order/{id}/{productId}")
-    public List<Product> removeProductOrder(@PathVariable("productId")int productid,@PathVariable("id")int id){
+    public Ordre removeProductOrder(@PathVariable("productId")int productid,@PathVariable("id")int id){
         Ordre ord=getOrdreById(id);
         String uri=BASE_URI+"/product-by-id/"+productid;
         Product product=restTemplate.getForObject(uri,Product.class);
@@ -51,7 +51,7 @@ public class OrderController {
         ord.getListproduit().remove(product);
         total_price =total(ord.getListproduit());
         ord.setTotal_price(total_price);
-        return ord.getListproduit();
+        return ord;
     }
 
 
